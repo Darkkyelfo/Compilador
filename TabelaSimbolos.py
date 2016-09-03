@@ -17,7 +17,7 @@ class TabelaDeSimbolos(object):
     def imprimirTabela(self):
         if(self.__podeImprimir):
             for i in self.__tabela:
-                print("|%s, %s, %s|"%(i.tolken.tipo,i.lexema,i.linha))
+                print("|%s,%s, %s|"%(i.tolken.tipo,i.lexema,i.linha))
         else:
             print("")
             
