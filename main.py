@@ -1,6 +1,5 @@
 '''
 Created on 30 de ago de 2016
-
 @author: Raul
 '''
 #-*-encoding:uft-8-*-
@@ -39,13 +38,15 @@ if __name__ == '__main__':
         lex.addTolken(ttemp)
     t2 = Token("STRING",r"(\"\w*\")|(\'\w*\')")
     t3 = Token("IDENTIFICADOR",r"(\b([a-zA-Z]))\w*")
-    t4 = Token("NUMERO",r"\d+\s|\d+$")
+    t4 = Token("NUMERO",r"\d+")
+    t5 = Token("IDENTACAO",r"\s",True)
     
     lex.addTolken(t0)
     lex.addTolken(t1)
     lex.addTolken(t2)
     lex.addTolken(t3)
     lex.addTolken(t4)
+    lex.addTolken(t5)
     
     lex.analiseLexica("""x2xx=2
     if(x2xx==3):
@@ -53,6 +54,3 @@ if __name__ == '__main__':
     def func(a)
     #comentario aaaaa
     3 2 456""").imprimirTabela()
-    
-    
-    pass
