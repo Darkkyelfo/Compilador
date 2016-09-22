@@ -36,7 +36,6 @@ if __name__ == '__main__':
     v4.addProducao(p4)
     
     gramatica = Gramatica()
-    
     gramatica.addVariavel(v0)
     gramatica.addVariavel(v1)
     gramatica.addVariavel(v2)

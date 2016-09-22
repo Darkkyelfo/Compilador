@@ -6,6 +6,9 @@ Created on 18 de set de 2016
 '''
 
 from Variavel import Variavel
+from Terminal import *
+from Sifrao import *
+from Gramatica import SimboloVazio
 #-*-encoding:utf-8 -*-
 class Gramatica(object):
        #Classe respons�vel por representar uma gram�tica
@@ -51,8 +54,29 @@ class Gramatica(object):
                 if(prod[0] not in var.firsts):
                     var.firsts.append(prod[0])
         return var.firsts
-                
-                
+    #funcao que encontra o follow           
+    def __follow(self):
+        self.__listaProducoes[0].follows.append(Sifrao())#add o sifrao ao primeiro elemento
+        for var in self.__listaProducoes:
+            self.__avaliarTipoFollow(var)
+            if(var.temVazio):
+                backupProd = var.producao + [] 
+                for i in var.producao:
+                    if(var in var.producao):
+                        i.remove(var)
+                self.__avaliarTipoFollow(var)
+                var.producao = backupProd                  
+    def __avaliarTipoFollow(self,var):
+        for i in var:
+            for producao in i:
+                if(len(producao)>=3):
+                    for i in producao.producao[2].firsts:
+                        if(isinstance(i,SimboloVazio)==False and i not in producao.follows):
+                            producao[1].follows.append(i)
+                elif(len(producao)>=2):
+                    if(var not in producao[1].guardarFollow):
+                        producao[1].guardarFollow.append(var)     
+                                  
     def getListaProducoes(self):
         return self.__listaProducoes      
                 

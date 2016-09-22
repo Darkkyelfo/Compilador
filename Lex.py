@@ -4,13 +4,13 @@ Created on 30 de ago de 2016
 '''
 #-*-encoding:utf-8-*-
 import re
-from TabelaSimbolos import TabelaDeSimbolos
+from TabelaDeTokens import TabelaDeTokens
 from Lexema import *
 from TokenInvalidoError import *
 
 class Lex(object):
     listaTokens = []
-    tSimbolos= TabelaDeSimbolos()
+    tSimbolos= TabelaDeTokens()
     __achados=[]#armazena as posições dos lexemas encontrados
     def addTolken(self,tolken):
         self.listaTokens.append(tolken)
