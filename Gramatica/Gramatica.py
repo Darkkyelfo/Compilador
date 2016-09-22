@@ -65,7 +65,8 @@ class Gramatica(object):
                     if(var in var.producao):
                         i.remove(var)
                 self.__avaliarTipoFollow(var)
-                var.producao = backupProd                  
+                var.producao = backupProd  
+                                
     def __avaliarTipoFollow(self,var):
         for i in var:
             for producao in i:
