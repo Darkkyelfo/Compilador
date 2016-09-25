@@ -4,9 +4,11 @@ Created on 30 de ago de 2016
 '''
 #-*-encoding:utf-8-*-
 import re
-from TabelaDeTokens import TabelaDeTokens
-from Lexema import *
-from TokenInvalidoError import *
+
+from lexico.Lexema import *
+from lexico.TabelaDeTokens import TabelaDeTokens
+from lexico.TokenInvalidoError import *
+
 
 class Lex(object):
     listaTokens = []

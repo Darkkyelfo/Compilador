@@ -3,10 +3,13 @@ Created on 19 de set de 2016
 
 @author: Raul
 '''
-from Gramatica import *
-from Variavel import *
-from Terminal import *
-from SimboloVazio import *
+#-*-encoding:uft-8-*-
+from gramatica.Gramatica import *
+from gramatica.SimboloVazio import *
+from gramatica.Terminal import *
+from gramatica.Variavel import *
+
+
 #arquivo temporario criado para testar a gramatica
 if __name__ == '__main__':
     
@@ -45,7 +48,7 @@ if __name__ == '__main__':
     gramatica.encontrarFirsts()
     
     for i in gramatica.getListaProducoes():
-        print(i.variavel)
+        print(i.simbolo)
         for j in i.firsts:
             print(j.simbolo)
         print("\n")

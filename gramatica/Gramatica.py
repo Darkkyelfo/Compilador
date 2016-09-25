@@ -5,14 +5,16 @@ Created on 18 de set de 2016
 
 '''
 
-from Variavel import Variavel
-from Terminal import *
-from Sifrao import *
-from Gramatica import SimboloVazio
+from gramatica.Sifrao import *
+from gramatica.SimboloVazio import SimboloVazio
+from gramatica.Terminal import *
+from gramatica.Variavel import Variavel
+
+
 #-*-encoding:utf-8 -*-
 class Gramatica(object):
        #Classe respons�vel por representar uma gram�tica
-
+       #Essa Classe ainda não está terminada 
     __modeloGramatica = u""" A gram�tica deve ser LL(1), onde
          Variaveis come�am com < e terminam com > e terminais ficam entre aspas simples:''
         Exemplo de gram�tica:
@@ -27,13 +29,16 @@ class Gramatica(object):
 
     def modeloGramatica(self):
         return self.__modeloGramatica
-        
-    def getGrammar(self):
-        return self.__grammar
     
     def addVariavel(self,var):
         self.__listaProducoes.append(var)
+                
+    def getListaProducoes(self):
+        return self.__listaProducoes 
     
+    def getPrimeiraVar(self):
+        return self.__listaProducoes[0]
+
     #M�todo respons�vel por encontrar todos os First das produ��es da gram�tica.
     def encontrarFirsts(self):
         for var in self.__listaProducoes:
@@ -42,7 +47,8 @@ class Gramatica(object):
         for var in self.__listaProducoes:
             if(var==self.__listaProducoes[0]):
                 var.follows.append("$")
-            
+                
+    #Funciona Parcialmente     
     def __first(self,var):
         for prod in var.producao:
             if(isinstance(prod[0], Variavel)):
@@ -54,7 +60,7 @@ class Gramatica(object):
                 if(prod[0] not in var.firsts):
                     var.firsts.append(prod[0])
         return var.firsts
-    #funcao que encontra o follow           
+    #Não funciona        
     def __follow(self):
         self.__listaProducoes[0].follows.append(Sifrao())#add o sifrao ao primeiro elemento
         for var in self.__listaProducoes:
@@ -66,7 +72,7 @@ class Gramatica(object):
                         i.remove(var)
                 self.__avaliarTipoFollow(var)
                 var.producao = backupProd  
-                                
+    #Não funciona                         
     def __avaliarTipoFollow(self,var):
         for i in var:
             for producao in i:
@@ -77,8 +83,6 @@ class Gramatica(object):
                 elif(len(producao)>=2):
                     if(var not in producao[1].guardarFollow):
                         producao[1].guardarFollow.append(var)     
-                                  
-    def getListaProducoes(self):
-        return self.__listaProducoes      
+                                       
                 
                 
