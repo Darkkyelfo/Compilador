@@ -11,9 +11,11 @@ from lexico.TokenInvalidoError import *
 
 
 class Lex(object):
-    listaTokens = []
-    tSimbolos= TabelaDeTokens()
-    __achados=[]#armazena as posições dos lexemas encontrados
+    
+    def __init__(self):
+        self.listaTokens = []
+        self.tLexemas = TabelaDeTokens()
+        self.__achados=[]#armazena as posições dos lexemas encontrados
     def addTolken(self,tolken):
         self.listaTokens.append(tolken)
      
@@ -39,11 +41,11 @@ class Lex(object):
                     listaLex.sort(key=lambda x: x.posicao, reverse=False)#Organiza os tolkens na ordem que aparecem na lista 
                     self.__apagarAchados()
                     for i in listaLex:#add os lexemas encontrados a tabela de símbolos
-                        self.tSimbolos.addSimbolo(i)
+                        self.tLexemas.addSimbolo(i)
             except (TokenInvalidoError) as e:
-                self.tSimbolos.setPodeImprimir()#impede que os simbolos encontrados sejam impressos
+                self.tLexemas.setPodeImprimir()#impede que os simbolos encontrados sejam impressos
                 print(str(e))
-            return self.tSimbolos
+            return self.tLexemas
     
     #Função responsavel por detectar se existe algum token inválido(não definido)
     #na string. Para isso ela verifica se a linha é composta somente por " "

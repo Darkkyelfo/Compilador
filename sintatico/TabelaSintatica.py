@@ -28,12 +28,39 @@ class TabelaSintatica(object):
                         self.matriz[i][j]=p[3]
                         break
     
-    def consultarTabela(self,var,terminal):
+    def consultarTabela(self,var,lexema):
         for linha,i in enumerate(self.linhas):
-            if(i.simbolo == var.simbolo):
+            if(i == var.simbolo):
                 for coluna,j in enumerate(self.colunas):
-                    if(j.simbolo == terminal.terminal):
-                        return (linha,coluna)
+                    if(j == lexema.token.tipo):
+                        return self.matriz[linha][coluna]
+                    
+    def gerarTabelaArq(self,arquivo):
+        arq = open(arquivo,"r")
+        lista = arq.readlines()
+        for i,linha in enumerate(lista):
+            self.matriz.append([])
+            for elemento in linha.split(";"):
+                elemento = elemento.replace(" ","")
+                elemento = elemento.replace('\n',"")
+                if('|' in elemento):
+                    elemento =elemento.replace('|',"")
+                    self.colunas.append(elemento)
+                elif(elemento.isupper()):
+                    self.linhas.append(elemento)
+                elif(elemento=="" and i!=0):
+                    self.matriz[i].append(None)
+                elif(elemento.isdigit()):
+                    self.matriz[i].append(int(elemento))
+        self.matriz.remove(self.matriz[0])
+    
+    def imprimir(self):
+        for i in self.matriz:
+            for j in i:
+                print(j,end=" ")
+            print("\n")
+                    
+            
                         
                     
         
