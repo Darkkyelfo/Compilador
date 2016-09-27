@@ -5,7 +5,7 @@ Created on 18 de set de 2016
 
 '''
 
-from gramatica.Sifrao import *
+
 from gramatica.SimboloVazio import SimboloVazio
 from gramatica.Terminal import *
 from gramatica.Variavel import Variavel
@@ -62,7 +62,7 @@ class Gramatica(object):
         return var.firsts
     #Não funciona        
     def __follow(self):
-        self.__listaProducoes[0].follows.append(Sifrao())#add o sifrao ao primeiro elemento
+        #self.__listaProducoes[0].follows.append(Sifrao())#add o sifrao ao primeiro elemento
         for var in self.__listaProducoes:
             self.__avaliarTipoFollow(var)
             if(var.temVazio):

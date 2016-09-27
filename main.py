@@ -11,8 +11,6 @@ from lexico.Lex import Lex
 from lexico.Token import Token
 from sintatico.AnalisadorSintatico import AnalisadorSintatico
 from sintatico.TabelaSintatica import TabelaSintatica
-from lexico.Lexema import Lexema
-
 if __name__ == '__main__':
     lex = Lex()
     #A ordem com se adiciona os tokens importa
@@ -60,17 +58,14 @@ if __name__ == '__main__':
     lex.addTolken(t5)
     lex.addTolken(t6)
     lex.addTolken(t7)
-    texto1 = """
-    def hora(a,b,c){
-     while(a>2){
-        f = 6
-        if(b==5){
-            break}
-      }
-}"""
-    lex.analiseLexica("""def h(a,b){
-    a=2
-    }"""
+    lex.analiseLexica("""
+    while(x>2){
+        if(r>3){
+            a=2*8
+            b=4
+        }
+    }
+    """
 )
 #add o vazio ao final da saída do analisador léxico
 #vazioLexema = Lexema("vazio",Token("e",r""),-1,-1)
@@ -136,7 +131,7 @@ tAtribuicao = Terminal("=")
 vazio = SimboloVazio()
 #Producoes
 pState = [[IF,STATE],[WHILE,STATE],[ATRIBUICAO,STATE],[DEF,STATE],[FUNCTIONCALL,STATE]
-          , [RETORNO],[tBreak],[tContinue],[NEWLINES,STATE],
+          , [RETORNO],[tBreak,NEWLINES],[tContinue,NEWLINES],[NEWLINES,STATE],
           [tNumero,OPERACOES_ARITMETICAS,NEWLINES,STATE],[vazio]]
 pAtribuicao = [[tId,tAtribuicao,EXPRESSAO_ARITMETICA,NEWLINES]]
 pIf = [[tIf,tPabrir,EXPRESSAO_LOGICA,tPfechar,tChavesAbrir,NEWLINES,STATE,tChavesFechar,ELSE]]
@@ -207,5 +202,6 @@ tabelaSint.gerarTabelaArq("arquivos/tabelaGramatica3_2.csv")
 #Criando o analisador sintático
 anaSintatico = AnalisadorSintatico(gramatica)
 anaSintatico.tabelaSintatica = tabelaSint
-print(anaSintatico.analisarSintaxe(lex.tLexemas.getTabela(),1))
+if(anaSintatico.analisarSintaxe(lex.tLexemas.getTabela(),1)):
+    print("Análise sintática realizada com sucesso")
 #anaSintatico.imprimirGramatica()    

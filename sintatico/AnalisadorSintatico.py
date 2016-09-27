@@ -40,31 +40,36 @@ class AnalisadorSintatico(object):
         try:
             for lexema in tabelaDeTokens:
                 self.__analisarLexema(lexema,linhaIni)
+            for i in range(self.__pilha.getTamanho()):#Caso restem produções na pilha tem que verificar se elas vão para o vazio
+                if(isinstance(self.__pilha.topo(),Variavel) and self.__pilha.topo().temVazio):
+                    self.__pilha.pop()#Se forem desempilhe 
+            if(self.__pilha.getTamanho()!=0):#Caso a pilha não esteja vazia           
+                raise ErroSintatico("Erro sintático no caracter:%s linha:%s"%(lexema.lexema,lexema.linha))  
         except(ErroSintatico) as e:
             print(str(e))
             return False
-        if(self.__pilha.getTamanho()!=0):             
-            return False
         return True
-           
+    
+    #Determina que regra deve ser chamada 
+    # e empilha e desempilha a pilha      
     def __analisarLexema(self,lexema,linhaIni):
-            achouTerminal = False
-            while(achouTerminal==False):
-                if(self.__pilha.getTamanho()>0 and isinstance(self.__pilha.top(),Variavel)):#se for uma variavel vai procurar na tabela o que ela gera
-                    regra=self.tabelaSintatica.consultarTabela(self.__pilha.top(),lexema) 
-                    if(regra==None):#erro 
-                        raise ErroSintatico("Erro sintático no caracter:%s linha:%s"%(lexema.lexema,lexema.linha))
-                    else:#Se a regra é válida 
-                        self.__pilha.pop()
-                        for elemento in self.__gramatica[regra-linhaIni]:
-                            if(isinstance(elemento,SimboloVazio)==False):
-                                self.__pilha.push(elemento)
-                else:#Se não for variável é um terminal 
-                    if(self.__pilha.top().simbolo==lexema.token.tipo): 
-                        self.__pilha.pop()
-                        achouTerminal = True
-                    else:#erro
-                        raise ErroSintatico("Erro sintático no caracter:%s linha:%s"%(lexema.lexema,lexema.linha))
+        achouTerminal = False
+        while(achouTerminal==False):
+            if(self.__pilha.getTamanho()>0 and isinstance(self.__pilha.topo(),Variavel)):#se for uma variavel vai procurar na tabela o que ela gera
+                regra=self.tabelaSintatica.consultarTabela(self.__pilha.topo(),lexema) 
+                if(regra==None):#erro 
+                    raise ErroSintatico("Erro sintático no caracter:%s linha:%s"%(lexema.lexema,lexema.linha))#Localiza a regra a ser aplicada
+                else:#Se a regra é válida            
+                    self.__pilha.pop()
+                    for elemento in self.__gramatica[regra-linhaIni]:
+                        if(isinstance(elemento,SimboloVazio)==False):
+                            self.__pilha.push(elemento)   
+            else:#Se não for variável é um terminal 
+                if(self.__pilha.topo().simbolo==lexema.token.tipo): 
+                    self.__pilha.pop()
+                    achouTerminal = True 
+                else:#erro
+                    raise ErroSintatico("Erro sintático no caracter:%s linha:%s"%(lexema.lexema,lexema.linha))
                     
     def imprimirGramatica(self):
         cont= 0

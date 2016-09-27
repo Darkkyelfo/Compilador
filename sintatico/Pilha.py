@@ -15,12 +15,16 @@ class Pilha(object):
         self.__tamanho+=1 
         
     def pop(self):
-        self.__pilha.remove(self.__pilha[-1])
+        del self.__pilha[-1]
         self.__tamanho-=1 
         
-    def top(self):
+    def topo(self):
         return self.__pilha[-1]
     
     def getTamanho(self):
         return self.__tamanho
-        
+    
+    def imprimir(self):
+        for i in range(len(self.__pilha),0,-1):
+            print(self.__pilha[i-1].simbolo)
+             
