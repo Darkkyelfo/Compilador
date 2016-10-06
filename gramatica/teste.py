@@ -32,11 +32,11 @@ if __name__ == '__main__':
     p3 = [[t2,v4,v3],[t1]]
     p4 = [[t3,v0,t4],[t5]]
     
-    v0.addProducao(p0)
-    v1.addProducao(p1)
-    v2.addProducao(p2)
-    v3.addProducao(p3)
-    v4.addProducao(p4)
+    v0.atribuirProducao(p0)
+    v1.atribuirProducao(p1)
+    v2.atribuirProducao(p2)
+    v3.atribuirProducao(p3)
+    v4.atribuirProducao(p4)
     
     gramatica = Gramatica()
     gramatica.addVariavel(v0)

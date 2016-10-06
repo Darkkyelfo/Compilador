@@ -23,7 +23,7 @@ class TabelaDeTokens(object):
     def setPodeImprimir(self):
         self.__podeImprimir=False
              
-    def imprimirTabela(self):
+    def imprimir(self):
         if(self.__podeImprimir):
             for i in self.__tabela:
                 print("|%s,%s, %s|"%(i.token.tipo,i.lexema,i.linha))

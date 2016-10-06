@@ -7,7 +7,7 @@ Created on 18 de set de 2016
 
 
 from gramatica.SimboloVazio import SimboloVazio
-from gramatica.Terminal import *
+from gramatica.Terminal import Terminal
 from gramatica.Variavel import Variavel
 
 
@@ -16,12 +16,15 @@ class Gramatica(object):
        #Classe respons�vel por representar uma gram�tica
        #Essa Classe ainda não está terminada 
     __modeloGramatica = u""" A gram�tica deve ser LL(1), onde
-         Variaveis come�am com < e terminam com > e terminais ficam entre aspas simples:''
-        Exemplo de gram�tica:
-            <E> = <T><R>
-            <R> = '+'<T><R>|e
-            <Z> = '*'<F><Z>|e
-            <F> = '('<E>')'|'id'
+         Variaveis estão em maisculo e os terminais não. As produções
+         devem ser separadas por "->", deve haver um espaço " " entre os termos e simbolo
+         Vazio é representado por "e"
+         Exemplo:
+         STATE -> continue NEWLINES
+         STATE -> NEWLINES STATE
+         STATE -> numero OPERACOES_ARITMETICAS NEWLINES STATE
+         STATE -> e
+         DEF -> def funcId ( PARAMETROS ) { NEWLINES STATE } 
          """
          
     def __init__(self):
@@ -38,7 +41,59 @@ class Gramatica(object):
     
     def getPrimeiraVar(self):
         return self.__listaProducoes[0]
-
+    
+    #Esse método é responsável por ler o arquivo contendo uma gramática LL(1)
+    #e extrair seus terminais e variáveis. Transforma o arquivo em "objeto"
+    def extrairDeArquivo(self,arquivo):
+        arq = open(arquivo,"r")#lê o arquivo contendo a gramática
+        texto = arq.readlines()#Gera um lista onde cada elemento é uma linha do arquivo
+        dicPalavras = self.__encontrarVarEterminais(texto)#Encontra todas as Variáveis e terminais da no arquivo da grámtica
+        self.__associarProducoes(texto, dicPalavras)# Cria as relações entre as Variáveis e suas produções.
+        self.__addVariaveisAGramatica(texto, dicPalavras)# Add as Variáveis para a gramática seguindo a ordem com que aparecem no arquivo
+        
+    #Função responsavel por extrair as variáveis do arquivo contendo a gramática
+    def __encontrarVarEterminais(self,texto):
+        dic = {}# dicionario contendo as variáveis
+        for linha in texto:
+            for elemento in linha.split(" "):
+                try:
+                    dic[elemento]
+                except KeyError:#caso o elemento não exista ele é add ao dicionário
+                    elemento = elemento.replace("\n","")
+                    if(elemento.isupper()):#se for maiúsculo é variavel
+                        var = Variavel(elemento)
+                        dic[elemento] = var
+                    elif(elemento !="->" and elemento!=""):#não adiciona o separador "->" nem string vazia
+                        if(elemento=="e"):
+                            ter = SimboloVazio()
+                        else:
+                            ter = Terminal(elemento)
+                        dic[elemento] = ter
+        return dic
+    
+    #Esse método é responsavel por add as produções as variaveis
+    #Exemplo: E-> AB-, essa função fica responsavel por associar a produção "AB-" a "E"                
+    def __associarProducoes(self,texto,dicPalavras):
+        listaProd = []
+        for linha in texto:
+                elemento = linha.split("->")
+                for prod in elemento[1].split(" "):
+                    try:
+                        listaProd.append(dicPalavras[prod.replace("\n","")])
+                    except KeyError:
+                        continue     
+                for i in elemento[0].split(" "):
+                    if(i.isupper()):
+                        dicPalavras[i].addProducao(listaProd)
+                        listaProd = []
+                        
+    #Método para adicionar variáveis para gramática apartir de um arquivo          
+    def __addVariaveisAGramatica(self,texto,dicPalavras):
+        for linha in texto:
+            if(dicPalavras[linha.split(" ")[0]] not in self.__listaProducoes):
+                self.addVariavel(dicPalavras[linha.split(" ")[0]])
+             
+             
     #M�todo respons�vel por encontrar todos os First das produ��es da gram�tica.
     def encontrarFirsts(self):
         for var in self.__listaProducoes:
