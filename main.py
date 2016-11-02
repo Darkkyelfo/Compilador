@@ -76,28 +76,12 @@ tabelaSint.gerarTabelaArq("arquivos/tabelaGramatica3_2.csv")
 anaSintatico = AnalisadorSintatico(gramatica)
 anaSintatico.tabelaSintatica = tabelaSint
 
-a = """
-    def soma(a,b){
-    break
-        while(w!=w){
-            if(a>b){
-                a=a*2/2
-                3*24
-            }else{
-                a=3
-            }
-        }
-        soma = a+b/e*4*3
-        print()
-        return e
-    }
-    soma()
-    continue
-    """
 #TESTANDO
 lex.analiseLexica("""
     if(a!=2){
     b=2
+    }else{
+        a= 2
     }
     """
 ).imprimir()
