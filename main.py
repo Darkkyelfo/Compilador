@@ -4,9 +4,6 @@ Created on 30 de ago de 2016
 '''
 #-*-encoding:uft-8-*-
 from gramatica.Gramatica import Gramatica
-from gramatica.SimboloVazio import SimboloVazio
-from gramatica.Terminal import Terminal
-from gramatica.Variavel import Variavel
 from lexico.Lex import Lex
 from lexico.Token import Token
 from sintatico.AnalisadorSintatico import AnalisadorSintatico
@@ -26,7 +23,7 @@ if __name__ == '__main__':
     
     separadores = {"\(":"(","\)":")","\,":",","\}":"}","\{":"{"}
     comparacoes = {"==":"==","<=":"<=",">=":">="
-                   ,">":">","<":"<"}
+                   ,">":">","<":"<","!=":"!="}
     operacoesMat = {"\+":"+","-":"-","\*":"*","/":"/"}
     
     t0 = Token("COMENTARIO",r"#(\w|#|\s)*",True)
@@ -79,11 +76,28 @@ tabelaSint.gerarTabelaArq("arquivos/tabelaGramatica3_2.csv")
 anaSintatico = AnalisadorSintatico(gramatica)
 anaSintatico.tabelaSintatica = tabelaSint
 
+a = """
+    def soma(a,b){
+    break
+        while(w!=w){
+            if(a>b){
+                a=a*2/2
+                3*24
+            }else{
+                a=3
+            }
+        }
+        soma = a+b/e*4*3
+        print()
+        return e
+    }
+    soma()
+    continue
+    """
 #TESTANDO
 lex.analiseLexica("""
-    def somar(a,b){
-        soma = a+b
-        return soma
+    if(a!=2){
+    b=2
     }
     """
 ).imprimir()
