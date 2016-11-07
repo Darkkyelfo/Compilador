@@ -8,6 +8,8 @@ from lexico.Lex import Lex
 from lexico.Token import Token
 from sintatico.AnalisadorSintatico import AnalisadorSintatico
 from sintatico.TabelaSintatica import TabelaSintatica
+from semantico.AnalisadorSemantico import AnalisadorSemantico
+from semantico.ErroSemantico import ErroSemantico
 if __name__ == '__main__':
     lex = Lex()
     #A ordem com se adiciona os tokens importa
@@ -78,13 +80,28 @@ anaSintatico.tabelaSintatica = tabelaSint
 
 #TESTANDO
 lex.analiseLexica("""
-    if(a!=2){
-    b=2
-    }else{
-        a= 2
+    def soma(a,b){
+        while(w!=w){
+            if(2){
+                a=6>3
+                3*24
+            }else{
+                a=3
+                break
+            }
+        }
+        soma = a+b/e*4*3
+        print()
+        return e
     }
+    soma()
     """
 ).imprimir()
 if(anaSintatico.analisarSintaxe(lex.tLexemas.getTabela(),1)):
     print("Análise sintática realizada com sucesso")
+    anaSemantico  = AnalisadorSemantico()
+    try:
+        anaSemantico.analiseSemantica(lex.tLexemas.getTabela())
+    except(ErroSemantico) as e:
+        print(str(e))
 #anaSintatico.imprimirGramatica()    

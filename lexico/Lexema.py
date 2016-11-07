@@ -12,4 +12,12 @@ class Lexema(object):
         self.linha=linha
         self.posicao=posicao
     
+    #Sobrecarga do operador de igualdade("==")
+    def __eq__(self, outro):
+        if(self.lexema==outro.lexema and  self.token==outro.token and self.linha == outro.linha
+           and self.posicao==outro.posicao):
+            return True
+        return False
+        
+    
         

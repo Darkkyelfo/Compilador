@@ -13,8 +13,8 @@ from gramatica.Variavel import Variavel
 
 #-*-encoding:utf-8 -*-
 class Gramatica(object):
-       #Classe respons�vel por representar uma gram�tica
-       #Essa Classe ainda não está terminada 
+       #Classe responsavel por representar uma gramatica
+       #Essa Classe ainda nao esta terminada 
     __modeloGramatica = u""" A gram�tica deve ser LL(1), onde
          Variaveis estão em maisculo e os terminais não. As produções
          devem ser separadas por "->", deve haver um espaço " " entre os termos e simbolo
