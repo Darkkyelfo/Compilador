@@ -83,18 +83,17 @@ lex.analiseLexica("""
     def soma(a,b){
         while(w!=w){
             if(2){
-                a=6>3
+                a=2*3
                 3*24
             }else{
                 a=3
                 break
             }
         }
-        soma = a+b/e*4*3
+        soma = a+b/o*4*3
         print()
         return e
     }
-    soma()
     """
 ).imprimir()
 if(anaSintatico.analisarSintaxe(lex.tLexemas.getTabela(),1)):
@@ -102,6 +101,7 @@ if(anaSintatico.analisarSintaxe(lex.tLexemas.getTabela(),1)):
     anaSemantico  = AnalisadorSemantico()
     try:
         anaSemantico.analiseSemantica(lex.tLexemas.getTabela())
+        print("ACABOU")
     except(ErroSemantico) as e:
         print(str(e))
 #anaSintatico.imprimirGramatica()    

@@ -36,7 +36,7 @@ class Lex(object):
                                     lexema = Lexema(match.group(),token,num+1,posicao)#cria o lexema
                                     listaLex.append(lexema)#add os lexemas a lista
                                 self.__addAchados(posicao, len(match.group()))#add aos achados
-                            copiaLinha = copiaLinha.replace(match.group(),"")#Apaga o lexema encontrado da string
+                            copiaLinha = copiaLinha.replace(match.group(),"",1)#Apaga o lexema encontrado da string
                     self.__houveTokenInvalido(copiaLinha,num)#detecta se na linha houve algum token ilegal
                     listaLex.sort(key=lambda x: x.posicao, reverse=False)#Organiza os tolkens na ordem que aparecem na lista 
                     self.__apagarAchados()
