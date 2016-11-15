@@ -4,11 +4,11 @@ Created on 7 de nov de 2016
 @author: Raul
 '''
 # -*- coding:utf-8 -*-
-from semantico.TabelaDeSimbolos import TabelaDeSimbolos
 from semantico.Escopo import Escopo
 from semantico.ErroSemantico import ErroSemantico
 from semantico.Identificador import Identificador
 from semantico.FuncId import FuncId
+from semantico.TabelaDeSimbolos import TabelaDeSimbolos
 
 class AnalisadorSemantico(object):
     u'''
@@ -18,17 +18,20 @@ class AnalisadorSemantico(object):
     dentroLaco = ("break","continue")#palavras chaves que só devem existir dentro do "while"
 
     def __init__(self):
-        self.tabelaDeSimbolos = TabelaDeSimbolos()
+        #self.tabelaDeSimbolos = TabelaDeSimbolos()
         self.escopo = Escopo()
     
     def analiseSemantica(self,tabelaDeTokens):
         escopoAtual = self.escopo
-        indiceTabelaSimbolos=0
+        indiceTabelaSimbolos = 0
         tamanho = len(tabelaDeTokens)
         while(indiceTabelaSimbolos<tamanho):
             lexema=tabelaDeTokens[indiceTabelaSimbolos]
             if(lexema.token.tipo in self.tiposEscopos):#localiza os escopos
-                filho = Escopo(escopoAtual,len(escopoAtual.escoposFilhos),lexema.token.tipo)
+                if(lexema.token.tipo=="def"):#Declarações de funções possuem sua própria tabela de simbolos
+                    filho = Escopo(escopoAtual,len(escopoAtual.escoposFilhos),lexema.token.tipo,TabelaDeSimbolos())
+                else:
+                    filho = Escopo(escopoAtual,len(escopoAtual.escoposFilhos),lexema.token.tipo,escopoAtual.tabelaDeSimbolos)
                 escopoAtual.addFilho(filho)
                 escopoAtual = filho
                 
@@ -55,13 +58,16 @@ class AnalisadorSemantico(object):
                         for lexemaAux in tabelaDeTokens[comeco+2:]:
                             indiceTabelaSimbolos+=1
                             if(lexemaAux.token.tipo=="id"):
+                                identificador = Identificador(lexemaAux,0,"parametro",escopoAtual)  
+                                escopoAtual.tabelaDeSimbolos.addIdentificador(identificador)  
                                 parametros+=1
                             elif(lexemaAux.token.tipo=="numero"):
                                 raise ErroSemantico(u"Erro semântico: declaração de funções ou procedimentos deve possuir somente variáveis")
                             elif(lexemaAux.token.tipo==")"):
                                 break    
                         funcId = FuncId(lexema,0,None,escopoAtual,parametros)
-                        self.tabelaDeSimbolos.addIdentificador(funcId)
+                        escopoAtual.tabelaDeSimbolos.addIdentificador(funcId)
+                       # self.tabelaDeSimbolos.addIdentificador(funcId)
                         
             #Esse "if" é responsavel por tratar todos os acontecimentos associados a uma variável  
             elif(lexema.token.tipo == "id"):
@@ -74,17 +80,24 @@ class AnalisadorSemantico(object):
                             break
                         if(lexemaAT.token.tipo == "id"):#se for id deve pegar o valor do "id"
                             try:
-                                aux = self.tabelaDeSimbolos.getIdentificador(lexemaAT.lexema)
-                                valor=valor+aux
+                                print(lexemaAT.lexema)
+                                aux = escopoAtual.tabelaDeSimbolos.getIdentificador(lexemaAT.lexema)
+                               #aux = self.tabelaDeSimbolos.getIdentificador(lexemaAT.lexema)
+                                valor=valor+str(aux.valor)
                             except:
                                 raise ErroSemantico(u"Erro semântico:'%s' não foi declarada "%lexemaAT.lexema)
                         else:
                             valor=valor+lexemaAT.lexema
                         indiceTabelaSimbolos+=1#Quando voltar pro laço inicial não verificará mais a linha da atribuição
                     #Add o identificador a tabela de símbolos
-                    identificador = Identificador(lexema,eval(valor),type(eval(valor)),escopoAtual)                       
-                    self.tabelaDeSimbolos.addIdentificador(identificador)
-                              
+                    identificador = Identificador(lexema,eval(valor),type(eval(valor)),escopoAtual)  
+                    escopoAtual.tabelaDeSimbolos.addIdentificador(identificador)                  
+                    #self.tabelaDeSimbolos.addIdentificador(identificador)
+                else:#Caso a variavel apareça em outro lugar(ifs,whiles ou returns) 
+                    try:
+                        escopoAtual.tabelaDeSimbolos.getIdentificador(lexema.lexema)
+                    except:#Se ela não for declarada antes da Erro
+                        raise ErroSemantico(u"Erro semântico:'%s' não foi declarada "%lexema.lexema)
             indiceTabelaSimbolos+=1
             
             

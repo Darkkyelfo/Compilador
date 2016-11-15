@@ -18,6 +18,10 @@ class TabelaDeSimbolos(object):
     
     def getIdentificador(self,nome):
         return self.__tabela[nome]
+    
+    def imprimirTabela(self):
+        for i in self.__tabela:
+            print("%s\n"%i)
 
                     
                 

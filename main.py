@@ -80,17 +80,19 @@ anaSintatico.tabelaSintatica = tabelaSint
 
 #TESTANDO
 lex.analiseLexica("""
-    def soma(a,b){
+    def soma(a,b,w){
         while(w!=w){
             if(2){
                 a=2*3
+                b=a*5
                 3*24
             }else{
                 a=3
                 break
             }
         }
-        soma = a+b/o*4*3
+        soma = a*4*3
+        e=3
         print()
         return e
     }
