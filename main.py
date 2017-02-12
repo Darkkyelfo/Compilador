@@ -73,29 +73,15 @@ tabelaSint.gerarTabelaArq("arquivos/tabelaGramatica3_2.csv")
 #print(tabelaSint.matriz[0])
 #print(tabelaSint.linhas)
 #print(tabelaSint.colunas)
-
+#ssss
 #Criando o analisador sintático
 anaSintatico = AnalisadorSintatico(gramatica)
 anaSintatico.tabelaSintatica = tabelaSint
 
 #TESTANDO
 lex.analiseLexica("""
-    def soma(a,b,w){
-        while(w!=w){
-            if(2){
-                a=2*3
-                b=a*5
-                3*24
-            }else{
-                a=3
-                break
-            }
-        }
-        soma = a*4*3
-        e=3
-        print()
-        return e
-    }
+    a=True
+    soma = 1+a
     """
 ).imprimir()
 if(anaSintatico.analisarSintaxe(lex.tLexemas.getTabela(),1)):
@@ -103,7 +89,7 @@ if(anaSintatico.analisarSintaxe(lex.tLexemas.getTabela(),1)):
     anaSemantico  = AnalisadorSemantico()
     try:
         anaSemantico.analiseSemantica(lex.tLexemas.getTabela())
-        print("ACABOU")
+        print("Análise semântica realizada com sucesso")
     except(ErroSemantico) as e:
         print(str(e))
 #anaSintatico.imprimirGramatica()    
