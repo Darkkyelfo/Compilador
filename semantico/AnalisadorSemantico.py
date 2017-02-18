@@ -98,7 +98,8 @@ class AnalisadorSemantico(object):
                                 raise ErroSemantico(u"Erro semântico:'%s' não foi declarada "%lexemaAT.lexema)
                             valor = self.__validarExpressao(valor,str(aux.valor))
                         else:
-                            valor = valor + lexemaAT.lexema
+                            valor = self.__validarExpressao(valor,lexemaAT.lexema )
+                            #valor = valor + lexemaAT.lexema
                         indiceTabelaSimbolos+=1#Quando voltar pro laço inicial não verificará mais a linha da atribuição
                     #Add o identificador a tabela de símbolos
                     identificador = Identificador(lexema,eval(valor),type(eval(valor)),escopoAtual)  
@@ -114,12 +115,26 @@ class AnalisadorSemantico(object):
     #determina se a expressão é válida
     #por exemplo: Se a = True e s = a + 3 
     #isso deve dar erro
-    def __validarExpressao(self,expressao,novoElemento):
-        tipo =  type(eval(novoElemento))
-        if(tipo==bool):
-            raise ErroSemantico(u"Erro semântico:A expressão'%s' é inválida"%(expressao+novoElemento))
-        expressaoValida = expressao + novoElemento
-        return expressaoValida
+    def __validarExpressao(self,anterior,novoElemento):
+        sinais=["+","-","/","*"]
+        nAnterior = anterior
+        elemento = novoElemento
+        for s in sinais:
+            elemento = elemento.replace(s,"")
+            nAnterior =  nAnterior.replace(s,"")  
+        if(nAnterior!="" and elemento!=""):
+           # print(elemento,nAnterior)
+            try:
+                tipoNovo =  type(eval(elemento))
+                tipoExpressao = type(eval(nAnterior))
+                if(tipoExpressao==bool or (tipoExpressao!=bool and tipoNovo==bool)):
+                    raise ErroSemantico(u"Erro semântico:A expressão'%s' é inválida"%(anterior+novoElemento))
+                
+            except:
+                raise ErroSemantico(u"Erro semântico:A expressão'%s' é inválida2"%(anterior+novoElemento))
+            
+        expressaoNova = anterior + novoElemento
+        return expressaoNova
        
            
            

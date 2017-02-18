@@ -80,8 +80,12 @@ anaSintatico.tabelaSintatica = tabelaSint
 
 #TESTANDO
 lex.analiseLexica("""
-    a=True
-    soma = 1+a
+    if(2){
+        a=True
+        b=1+2
+    }else{
+        u=b
+    }
     """
 ).imprimir()
 if(anaSintatico.analisarSintaxe(lex.tLexemas.getTabela(),1)):
