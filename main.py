@@ -80,11 +80,28 @@ anaSintatico.tabelaSintatica = tabelaSint
 
 #TESTANDO
 lex.analiseLexica("""
-    if(2){
-        a=True
-        b=1+2
+def soma(bola,b,w){
+    a=1
+    if(a>2){
+        u=2+a
+        r=bola
     }else{
-        u=b
+        y=5+2
+    }
+    }
+    u=2
+    soma(1,2,3)
+    t=5
+    while(t>3){
+        r=2
+        b=2
+        if(r>1){
+            o=b+5
+            t=3
+        }else{
+            y=r
+            t=4
+        }
     }
     """
 ).imprimir()
