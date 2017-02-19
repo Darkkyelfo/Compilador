@@ -10,6 +10,7 @@ from sintatico.AnalisadorSintatico import AnalisadorSintatico
 from sintatico.TabelaSintatica import TabelaSintatica
 from semantico.AnalisadorSemantico import AnalisadorSemantico
 from semantico.ErroSemantico import ErroSemantico
+from Tradutor import Tradutor3Enderecos
 if __name__ == '__main__':
     lex = Lex()
     #A ordem com se adiciona os tokens importa
@@ -83,7 +84,7 @@ lex.analiseLexica("""
 def soma(bola,b,w){
     a=1
     if(a>2){
-        u=2+a
+        u=2+a*3
         r=bola
     }else{
         y=5+2
@@ -103,6 +104,9 @@ def soma(bola,b,w){
             t=4
         }
     }
+    if(r>1){
+        t=2
+    }
     """
 ).imprimir()
 if(anaSintatico.analisarSintaxe(lex.tLexemas.getTabela(),1)):
@@ -111,6 +115,8 @@ if(anaSintatico.analisarSintaxe(lex.tLexemas.getTabela(),1)):
     try:
         anaSemantico.analiseSemantica(lex.tLexemas.getTabela())
         print("Análise semântica realizada com sucesso")
+        tradutor = Tradutor3Enderecos(lex.tLexemas.getTabela())
+        tradutor.converter()
     except(ErroSemantico) as e:
         print(str(e))
 #anaSintatico.imprimirGramatica()    
