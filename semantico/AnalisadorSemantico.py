@@ -19,6 +19,7 @@ class AnalisadorSemantico(object):
         self.tiposEscopos = ("if","else","while","def")#guarda os tipos de escopo
         self.dentroLaco = ("break","continue")#palavras chaves que só devem existir dentro do "while"
         self.escopo = Escopo()
+        self.escopo.tabelaDeSimbolos = TabelaDeSimbolos()
     
     def analiseSemantica(self,tabelaDeTokens):
         escopoAtual = self.escopo

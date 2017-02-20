@@ -12,12 +12,13 @@ class Escopo(object):
     '''
 
 
-    def __init__(self,escopoPai = None,id = 0,tipo = "main",tabelaDeSimbolos = TabelaDeSimbolos()):
+    def __init__(self,escopoPai = None,id = 0,tipo = "main",tabelaDeSimbolos = None,label = 0):
         self.escopoPai = escopoPai
         self.id = id
         self.tipo = tipo
         self.escoposFilhos = []
         self.tabelaDeSimbolos = tabelaDeSimbolos
+        self.label = label
     
     
     def addFilho(self,escopoFilho):
