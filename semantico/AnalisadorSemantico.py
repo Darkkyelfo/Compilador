@@ -29,6 +29,9 @@ class AnalisadorSemantico(object):
             lexema=tabelaDeTokens[indiceTabelaSimbolos]
             if(lexema.token.tipo in self.tiposEscopos):#localiza os escopos
                 if(lexema.token.tipo=="def"):#Declarações de funções possuem sua própria tabela de simbolos
+                    if(escopoAtual.tipo=="def"):
+                        raise ErroSemantico(u"Não é possível declarar uma função dentro de outra")
+                        
                     filho = Escopo(escopoAtual,len(escopoAtual.escoposFilhos),lexema.token.tipo,TabelaDeSimbolos())
                 else:
                     tabela = escopoAtual.tabelaDeSimbolos

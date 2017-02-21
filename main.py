@@ -70,19 +70,20 @@ gramatica.extrairDeArquivo("arquivos/GramaticaSeparada2.txt")
 tabelaSint = TabelaSintatica()
 tabelaSint.gerarTabelaArq("arquivos/tabelaGramatica3_2.csv")
 
-#tabelaSint.imprimir()
-#print(tabelaSint.matriz[0])
-#print(tabelaSint.linhas)
-#print(tabelaSint.colunas)
-#ssss
 #Criando o analisador sintático
 anaSintatico = AnalisadorSintatico(gramatica)
 anaSintatico.tabelaSintatica = tabelaSint
 
 #TESTANDO
 lex.analiseLexica("""
+    def somar(a,b){
+        s = a + b
+        return s
+    
+    }
     u=2
     t=5
+    somar(1,2)
     while(t>3){
         r=2+5*3
         b=2

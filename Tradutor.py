@@ -1,7 +1,7 @@
 '''
 Created on 19 de fev de 2017
 
-@author: raulu
+@author: raul
 '''
 from lexico.TabelaDeTokens import TabelaDeTokens
 from semantico.Escopo import Escopo
@@ -29,11 +29,16 @@ class Tradutor3Enderecos(object):
                 
                 if(lex.token.tipo=="else"):#Coloca label do "else" 
                     sentenca = "L"+str(self.escopoAtual.label-1)+":"+"\n"
-                elif(lex.token.tipo !="def"):
+                elif(lex.token.tipo == "def"):
+                    sentenca = "func begin "+self.tabela[i+1].lexema.replace("(","")+"\n"
+                    self.escopoAtual.nomeFunc = self.tabela[i+1].lexema
+                else:
                     sentenca = self.__traducaoSentenca(i+2)    
             elif(lex.token.tipo == "="):
                 sentenca,tamanho = self.__coletarAtb(i-1,lex.linha)
                 sentenca = self.__converterAtribuicao(sentenca,tamanho)
+            elif(lex.token.tipo=="funcId" and self.escopoAtual.tipo!="def"):#Traduz as chamadas de função
+                sentenca = self.__tFuncCall(i)
             elif(lex.lexema=="}"):
                 if(self.escopoAtual.tipo=="while"):
                     sentenca = "goto " + "L"+str(self.escopoAtual.label)+":"+"\n" + "L"+str(self.escopoAtual.label+1)+":"+"\n"
@@ -41,6 +46,8 @@ class Tradutor3Enderecos(object):
                     sentenca = "goto " + "L"+str(self.escopoAtual.label+2)+"\n"
                 elif(self.escopoAtual.tipo=="else"):#Coloca o label para onde ir depois de excutar o "if". Impedindo de executar o "else" se o "if" for ativado 
                     sentenca = "L"+str(self.escopoAtual.label)+":"+"\n"
+                elif(self.escopoAtual.tipo == "def"):
+                    sentenca = "func end "+self.tabela[i+1].lexema.replace("(","")+"\n"
                 else:
                     sentenca = "L"+str(self.escopoAtual.label+1)+":"+"\n"
                 self.escopoAtual = self.escopoAtual.escopoPai
@@ -48,6 +55,20 @@ class Tradutor3Enderecos(object):
             self.traducao += sentenca
         print(self.traducao)
     
+    #traduz as chamadas de função
+    def __tFuncCall(self,indice):
+        sentenca = ""
+        parametros = 0
+        nomeFunc = self.tabela[indice].lexema
+        for sen in self.tabela[indice+2:]:#começar a pecorrer após o "("
+            if(sen.lexema==")"):
+                break
+            if(sen.lexema!=","):
+                sentenca+="param "+sen.lexema+"\n"
+                parametros+=1
+        sentenca = sentenca+"call "+nomeFunc.replace("(","")+","+str(parametros)+"\n"
+        return sentenca
+            
     #Traduz as senteças de "if","while"
     def __traducaoSentenca(self,indice):
         sentenca = ""
