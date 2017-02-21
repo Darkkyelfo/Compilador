@@ -80,7 +80,7 @@ class AnalisadorSemantico(object):
                     try:
                         funcao = self.tDeFuncoes.getIdentificador(lexema.lexema)#Verifica se a função já foi declarada
                     except:
-                        raise ErroSemantico(u"Erro semântico:a função '%s' não foi declarada "%lexema.lexema)
+                        raise ErroSemantico(u"Erro semântico:a função '%s' na linha:%s não foi declarada "%(lexema.lexema,lexema.linha))
                     
                     numPara = 0
                     for parametro in tabelaDeTokens[comeco+1:]:#checa se o número de argumentos da função está correto
@@ -89,7 +89,7 @@ class AnalisadorSemantico(object):
                         elif(parametro.token.tipo==")"):
                             break 
                     if(numPara != funcao.argumentos):
-                        raise ErroSemantico(u"Erro semântico:%s Número de argumentos errado"%funcao.lexema.lexema) 
+                        raise ErroSemantico(u"Erro semântico:%s Número de argumentos errado"%(funcao.lexema.lexema))
                             
             #Esse "if" é responsavel por tratar todos os acontecimentos associados a uma variável  
             elif(lexema.token.tipo == "id"):
@@ -101,14 +101,13 @@ class AnalisadorSemantico(object):
     #por exemplo: Se a = True e s = a + 3 
     #isso deve dar erro
     def __validarExpressao(self,anterior,novoElemento):
-        sinais=["+","-","/","*"]
+        sinais=["+","-","/","*","<","<=",">",">="]
         nAnterior = anterior
         elemento = novoElemento
         for s in sinais:
             elemento = elemento.replace(s,"")
             nAnterior =  nAnterior.replace(s,"")  
-        if(nAnterior!="" and elemento!=""):
-           # print(elemento,nAnterior)
+        if((nAnterior!="" and nAnterior!="\n") and (elemento!="" and elemento!="\n")):
             try:
                 tipoNovo =  type(eval(elemento))
                 tipoExpressao = type(eval(nAnterior))

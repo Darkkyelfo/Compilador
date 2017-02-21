@@ -3,7 +3,6 @@ Created on 19 de fev de 2017
 
 @author: raul
 '''
-from lexico.TabelaDeTokens import TabelaDeTokens
 from semantico.Escopo import Escopo
 class Tradutor3Enderecos(object):
     
@@ -53,7 +52,7 @@ class Tradutor3Enderecos(object):
                 self.escopoAtual = self.escopoAtual.escopoPai
                 
             self.traducao += sentenca
-        print(self.traducao)
+        return self.traducao
     
     #traduz as chamadas de função
     def __tFuncCall(self,indice):

@@ -24,7 +24,8 @@ class AnalisadorSintatico(object):
     def __init__(self,gramatica):
         self.__gramatica = self.__seperarGramatica(gramatica)
         self.tabelaSintatica = None#Atributo que armazena a tabela sintática. Será trocado por private futuramente.
-        self.__pilha = Pilha(gramatica.getPrimeiraVar())
+        self.gramaIni  = gramatica.getPrimeiraVar()
+        self.__pilha = None
     
     #Método responsavel por deixar a gramatica em um formata mais simples para
     #se indexar com a tabela
@@ -37,17 +38,14 @@ class AnalisadorSintatico(object):
         return gramaticaSeparada 
     
     def analisarSintaxe(self,tabelaDeTokens,linhaIni=0):
-        try:
-            for lexema in tabelaDeTokens:
-                self.__analisarLexema(lexema,linhaIni)
-            for i in range(self.__pilha.getTamanho()):#Caso restem produções na pilha tem que verificar se elas vão para o vazio
-                if(isinstance(self.__pilha.topo(),Variavel) and self.__pilha.topo().temVazio):
-                    self.__pilha.pop()#Se forem desempilhe 
-            if(self.__pilha.getTamanho()!=0):#Caso a pilha não esteja vazia           
-                raise ErroSintatico("Erro sintático no caracter:%s linha:%s"%(lexema.lexema,lexema.linha))  
-        except(ErroSintatico) as e:
-            print(str(e))
-            return False
+        self.__pilha= Pilha(self.gramaIni)
+        for lexema in tabelaDeTokens:
+            self.__analisarLexema(lexema,linhaIni)
+        for i in range(self.__pilha.getTamanho()):#Caso restem produções na pilha tem que verificar se elas vão para o vazio
+            if(isinstance(self.__pilha.topo(),Variavel) and self.__pilha.topo().temVazio):
+                self.__pilha.pop()#Se forem desempilhe 
+        if(self.__pilha.getTamanho()!=0):#Caso a pilha não esteja vazia           
+            raise ErroSintatico("Erro sintático no caracter:%s linha:%s"%(lexema.lexema,lexema.linha))  
         return True
     
     #Determina que regra deve ser chamada 
@@ -56,9 +54,9 @@ class AnalisadorSintatico(object):
         achouTerminal = False
         while(achouTerminal==False):
             if(self.__pilha.getTamanho()>0 and isinstance(self.__pilha.topo(),Variavel)):#se for uma variavel vai procurar na tabela o que ela gera
-                regra=self.tabelaSintatica.consultarTabela(self.__pilha.topo(),lexema) 
+                regra=self.tabelaSintatica.consultarTabela(self.__pilha.topo(),lexema)
                 if(regra==None):#erro 
-                    raise ErroSintatico("Erro sintático no caracter:%s linha:%s"%(lexema.lexema,lexema.linha))#Localiza a regra a ser aplicada
+                    raise ErroSintatico("Erro sintático no caracter:%s linha:%s2"%(lexema.lexema,lexema.linha))#Localiza a regra a ser aplicada
                 else:#Se a regra é válida            
                     self.__pilha.pop()
                     for elemento in self.__gramatica[regra-linhaIni]:
