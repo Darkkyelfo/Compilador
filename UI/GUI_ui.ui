@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>557</width>
+    <width>607</width>
     <height>665</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>561</width>
+      <width>601</width>
       <height>601</height>
      </rect>
     </property>
@@ -37,9 +37,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>390</y>
-        <width>551</width>
-        <height>181</height>
+        <y>400</y>
+        <width>591</width>
+        <height>171</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -51,8 +51,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>551</width>
-        <height>381</height>
+        <width>591</width>
+        <height>391</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -61,6 +61,9 @@
        </property>
        <item>
         <widget class="QTextEdit" name="t_linhaNumeros">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -69,17 +72,43 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>25</width>
+           <width>50</width>
            <height>16777215</height>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(198, 198, 198);</string>
+          <string notr="true">background-color: rgb(198, 198, 198);
+color: rgb(0, 0, 0);</string>
+         </property>
+         <property name="html">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QTextEdit" name="t_digitar">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>550</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="sizeIncrement">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>

@@ -16,7 +16,12 @@ class JanelaPrincipal(QtGui.QMainWindow,Ui_MainWindow):
             self.setupUi(self)
             self.compilador = Compilador()
             self.b_compilar.clicked.connect(self.__compilar)
-        
+            self.t_digitar.textChanged.connect(self.__contarLinhas)
+            self.t_linhaNumeros.verticalScrollBar().valueChanged.connect(
+            self.t_digitar.verticalScrollBar().setValue)
+            
+            self.t_digitar.verticalScrollBar().valueChanged.connect(
+            self.t_linhaNumeros.verticalScrollBar().setValue)
         def __compilar(self):
             try:
                 self.t_console.setPlainText("")
@@ -29,5 +34,19 @@ class JanelaPrincipal(QtGui.QMainWindow,Ui_MainWindow):
                 self.t_console.setPlainText(str(e))
             except(ErroSemantico) as e:
                 self.t_console.setPlainText(str(e))
+        
+        def __contarLinhas(self):
+            if(len(self.t_digitar.toPlainText())>0):
+                l = self.t_digitar.toPlainText().count("\n")
+                linhas = 1
+                numLinhas = str(linhas)
+                for i in range(l):
+                    numLinhas +="\n"+str(i+linhas+1) 
+                self.t_linhaNumeros.setPlainText(numLinhas)
+            else:
+                self.t_linhaNumeros.setPlainText("")
+
+           
+            
             
         

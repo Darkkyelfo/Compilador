@@ -78,7 +78,6 @@ class Compilador(object):
     def compilar(self,codigo):
         self.lex.analiseLexica(codigo)
         
-        
         self.anaSintatico.analisarSintaxe(self.lex.tLexemas.getTabela(),1)
         anaSemantico  = AnalisadorSemantico()
         anaSemantico.analiseSemantica(self.lex.tLexemas.getTabela())

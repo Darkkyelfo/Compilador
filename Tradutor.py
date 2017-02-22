@@ -105,11 +105,11 @@ class Tradutor3Enderecos(object):
                 ant = ""
                 qLinha = ""
                 for atr in quadrupla:#Lẽ a quadrupla e monta a string de tradução
-                    temp=temp+ atr[3]+":="+atr[1]+atr[0]+atr[2]
+                    temp=temp+qLinha+atr[3]+":="+atr[1]+atr[0]+atr[2] 
                     temp= temp.replace("§",ant)
                     ant = atr[3]
                     qLinha = "\n"
-                atribuicao = temp +qLinha+ atribuicao.replace("§","t"+str(varTemp))+"\n"
+                atribuicao = temp +qLinha+ atribuicao.replace("§","t"+str(varTemp))
                 return atribuicao
             else:#monta as quadruplas
                 for sinal in sinais:

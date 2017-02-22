@@ -151,7 +151,7 @@ class AnalisadorSemantico(object):
             except:#Se ela não for declarada antes da Erro
                 escopo = escopo.escopoPai
                 #raise ErroSemantico(u"Erro semântico:'%s' não foi declarada "%lexema.lexema)
-        raise ErroSemantico(u"Erro semântico:'%s' não foi declarada "%lexema.lexema)
+        raise ErroSemantico(u"Erro semântico:'%s' não foi declarada, linha:%s "%(lexema.lexema,lexema.linha))
         
     #Avaliar a condicao(dentro de ifs,while e etc)
     #Retorna se o valor é verdadeiro ou falso  
