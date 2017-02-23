@@ -17,17 +17,25 @@ class JanelaPrincipal(QtGui.QMainWindow,Ui_MainWindow):
             self.compilador = Compilador()
             self.b_compilar.clicked.connect(self.__compilar)
             self.t_digitar.textChanged.connect(self.__contarLinhas)
+            #Associa as scrolls fazendo com que se comportem como um
+            #unico scrolls
             self.t_linhaNumeros.verticalScrollBar().valueChanged.connect(
             self.t_digitar.verticalScrollBar().setValue)
-            
             self.t_digitar.verticalScrollBar().valueChanged.connect(
             self.t_linhaNumeros.verticalScrollBar().setValue)
+            
         def __compilar(self):
             try:
                 self.t_console.setPlainText("")
                 self.compilador.compilar(self.t_digitar.toPlainText())
                 self.t_traducao.setPlainText(self.compilador.traducao)
-                self.t_console.setPlainText("O código Está correto")
+                vaiImprimir = ""
+                for i in self.compilador.impressor:
+                    for j in i:
+                        vaiImprimir+=str(j)+"\t"
+                    vaiImprimir+="\n"
+                self.t_console.setPlainText("------O código Está correto-----"+"\n"+vaiImprimir)
+                    
             except (TokenInvalidoError) as e:
                 self.t_console.setPlainText(str(e))
             except(ErroSintatico) as e:

@@ -56,7 +56,7 @@ class AnalisadorSintatico(object):
             if(self.__pilha.getTamanho()>0 and isinstance(self.__pilha.topo(),Variavel)):#se for uma variavel vai procurar na tabela o que ela gera
                 regra=self.tabelaSintatica.consultarTabela(self.__pilha.topo(),lexema)
                 if(regra==None):#erro 
-                    raise ErroSintatico("Erro sintático no caracter:%s linha:%s2"%(lexema.lexema,lexema.linha))#Localiza a regra a ser aplicada
+                    raise ErroSintatico("Erro sintático no caracter:%s linha:%s"%(lexema.lexema,lexema.linha))#Localiza a regra a ser aplicada
                 else:#Se a regra é válida            
                     self.__pilha.pop()
                     for elemento in self.__gramatica[regra-linhaIni]:

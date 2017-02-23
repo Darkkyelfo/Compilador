@@ -58,7 +58,7 @@ class AnalisadorSemantico(object):
                 if(dentroDoLaco==False):
                     raise ErroSemantico(u"Erro semântico: '%s' deve estar dentro de um laço de repetição"%lexema.token.tipo)
             #Esse "if" é responsavel por tratar todos os acontecimentos associados a um identificador de função
-            elif(lexema.token.tipo == "funcId"):
+            elif(lexema.token.tipo == "funcId" and lexema.lexema!="print("):
                 comeco = indiceTabelaSimbolos
                 #Vai add o identificador da função a tabela
                 if(escopoAtual.tipo=="def" and tabelaDeTokens[comeco-1].token.tipo=="def"):
@@ -75,7 +75,6 @@ class AnalisadorSemantico(object):
                             break    
                     funcId = FuncId(lexema,0,None,escopoAtual,parametros)
                     self.tDeFuncoes.addIdentificador(funcId)
-                   # self.tabelaDeSimbolos.addIdentificador(funcId)
                 else:#Caso não seja uma declaração de função e sim uma chamada
                     try:
                         funcao = self.tDeFuncoes.getIdentificador(lexema.lexema)#Verifica se a função já foi declarada
@@ -93,8 +92,8 @@ class AnalisadorSemantico(object):
                             
             #Esse "if" é responsavel por tratar todos os acontecimentos associados a uma variável  
             elif(lexema.token.tipo == "id"):
-               indiceTabelaSimbolos += self.__validarAtribuicao(lexema, tabelaDeTokens, indiceTabelaSimbolos, escopoAtual)
-               self.__variavelDeclacrada(lexema, escopoAtual)
+                indiceTabelaSimbolos += self.__validarAtribuicao(lexema, tabelaDeTokens, indiceTabelaSimbolos, escopoAtual)
+                self.__variavelDeclacrada(lexema, escopoAtual)
             indiceTabelaSimbolos+=1
             
     #determina se a expressão é válida
@@ -176,6 +175,8 @@ class AnalisadorSemantico(object):
         if(valor==False):
             resultado = False     
         return resultado
+            
+    
             
         
         

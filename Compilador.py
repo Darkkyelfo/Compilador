@@ -9,7 +9,7 @@ from lexico.Token import Token
 from sintatico.AnalisadorSintatico import AnalisadorSintatico
 from sintatico.TabelaSintatica import TabelaSintatica
 from semantico.AnalisadorSemantico import AnalisadorSemantico
-from Tradutor import Tradutor3Enderecos
+from Tradutor import Tradutor3Enderecos,Impressor
 
 class Compilador(object):
 
@@ -27,6 +27,7 @@ class Compilador(object):
         self.anaSintatico.tabelaSintatica = tabelaSint
         
         self.traducao = ""
+        self.impressor = []
         #A ordem com se adiciona os tokens importa
         #pois,dependendo da expressão regular é possivel que trechos 
         #sejam igualmente reconhecido sendo que o lexema será catalogado
@@ -85,6 +86,8 @@ class Compilador(object):
         tradutor = Tradutor3Enderecos(self.lex.tLexemas.getTabela())
         
         self.traducao = tradutor.converter()
+        
+        self.impressor = Impressor.vImprimir(self.lex.tLexemas.getTabela(),anaSemantico.escopo)
         
 
         

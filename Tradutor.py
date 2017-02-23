@@ -71,10 +71,14 @@ class Tradutor3Enderecos(object):
     #Traduz as senteças de "if","while"
     def __traducaoSentenca(self,indice):
         sentenca = ""
-        for sen in self.tabela[indice:]: 
+        sinais = {"<":">=",">":"<=","<=":">",">=":"<"}
+        for sen in self.tabela[indice:]:
+            valor = sen.lexema 
             if(sen.lexema==")"):
                 break
-            sentenca +=sen.lexema
+            if(sen.lexema in sinais):
+                valor = sinais[sen.lexema]
+            sentenca +=valor
             
         traducao = "L"+str(self.escopoAtual.label)+": if " + sentenca + " goto L"+str(self.escopoAtual.label+1)+"\n"
         self.label+=1
@@ -121,7 +125,23 @@ class Tradutor3Enderecos(object):
                         qtAtual = qtAtual - 2 
                         break   
                 
-                  
+        
+          
+class Impressor(object):
+        
+    @staticmethod
+    def vImprimir(tabelaTokens,escopoSemantico):
+        vImprimir = []
+        for indice,v in enumerate(tabelaTokens):
+            if(v.lexema=="print("):
+                aux = []
+                for i in tabelaTokens[indice+2:]:
+                    if(i.token.tipo=="id"):
+                        valor = escopoSemantico.tabelaDeSimbolos.getIdentificador(i.lexema).valor
+                        aux.append(valor)
+                vImprimir.append(aux)
+        return vImprimir
+                
         
         
         
